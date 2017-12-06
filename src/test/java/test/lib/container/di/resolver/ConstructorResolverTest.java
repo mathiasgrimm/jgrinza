@@ -10,20 +10,22 @@ import lib.container.di.resolver.MultipleInjectableConstructorException;
 public class ConstructorResolverTest {
 
 	@Test(expected = MultipleInjectableConstructorException.class)
-	public void itCanOnlyHaveOneInjectableConstructor() throws Exception
-	{
+	public void itCanOnlyHaveOneInjectableConstructor() throws Exception {
 		TestCase.assertTrue(true);
-		
+
 		ConstructorResolver dr = new ConstructorResolver();
 		dr.resolve(ClassWithTwoInjectableConstructors.class);
 	}
 }
 
-class ClassWithTwoInjectableConstructors
-{
+class ClassWithTwoInjectableConstructors {
 	@Inject
-	public ClassWithTwoInjectableConstructors(String s) {}
-	
+	public ClassWithTwoInjectableConstructors(String s) {
+		//
+	}
+
 	@Inject
-	public ClassWithTwoInjectableConstructors(Integer i) {}
+	public ClassWithTwoInjectableConstructors(Integer i) {
+		//
+	}
 }
