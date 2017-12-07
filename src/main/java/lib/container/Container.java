@@ -77,6 +77,7 @@ public class Container {
 
 		// dynamically resolves it if possible
 		T resolved = this.resolve(type);
+		this.bindings.put(type, resolved);
 		
 		return resolved;
 	}
