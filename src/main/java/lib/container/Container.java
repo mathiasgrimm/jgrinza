@@ -82,6 +82,13 @@ public class Container {
 		return resolved;
 	}
 
+	/**
+	 * recursively resolves the class dependencies
+	 * 
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
 	protected <T> T resolve(Class<T> type) throws Exception {
 		System.out.println("Resolving type " + type.getCanonicalName());
 		
