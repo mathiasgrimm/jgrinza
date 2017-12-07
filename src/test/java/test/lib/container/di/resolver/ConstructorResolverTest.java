@@ -15,6 +15,8 @@ public class ConstructorResolverTest {
 
 		ConstructorResolver dr = new ConstructorResolver();
 		dr.resolve(ClassWithTwoInjectableConstructors.class);
+
+		// new Constructor;
 	}
 }
 

@@ -23,16 +23,19 @@ public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static Application app;
-	
+
+	public MainServlet()
+    {
+        MainServlet.app = new Application();
+        System.out.println("construct");
+    }
 	
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		if (MainServlet.app == null) {
-			MainServlet.app = new Application();
-		}
-		
-		PrintWriter w = response.getWriter();
-		
+	    PrintWriter w = response.getWriter();
+
+		w.write("test 4");
+
 		try {
 //			File file = new File(this.getClass().getResource("/route.txt").toURI());
 //			FileInputStream fis = new FileInputStream(file);
@@ -53,7 +56,7 @@ public class MainServlet extends HttpServlet {
 
 class Application
 {
-	public Application()
+	Application()
 	{
 		System.out.println("initialising application");
 	}

@@ -10,7 +10,16 @@ public class ConstructorResolver {
 	public Parameter[] resolve(Class<?> c) throws Exception
 	{
 		Constructor<?>[] constructors = c.getConstructors(); 
+		
+		if (constructors.length == 0) {
+			return null;
+		}
+		
 		Constructor<?> ctt = this.getInjectableConstructor(constructors);
+		
+		if (ctt == null) {
+			return null;
+		}
 		
 		return ctt.getParameters();
 	}
