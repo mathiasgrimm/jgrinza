@@ -1,21 +1,22 @@
-package lib.container.di.resolver;
+package com.mathiasgrimm.lib.container.di.resolver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 
-import lib.container.di.Inject;
+import com.mathiasgrimm.lib.container.di.Inject;
 
 public class ConstructorResolver {
 	
-	public Parameter[] resolve(Class<?> c) throws Exception
+	public <T> Parameter[] resolve(Class<T> c) throws Exception
 	{
-		Constructor<?>[] constructors = c.getConstructors(); 
+		@SuppressWarnings("unchecked")
+		Constructor<T>[] constructors = (Constructor<T>[]) c.getConstructors(); 
 		
 		if (constructors.length == 0) {
 			return null;
 		}
 		
-		Constructor<?> ctt = this.getInjectableConstructor(constructors);
+		Constructor<T> ctt = this.getInjectableConstructor(constructors);
 		
 		if (ctt == null) {
 			return null;
@@ -30,11 +31,11 @@ public class ConstructorResolver {
 	 * @param constructors
 	 * @throws Exception
 	 */
-	public void validate(Constructor<?>[] constructors) throws Exception
+	public <T> void validate(Constructor<T>[] constructors) throws Exception
 	{
 		int totalInject = 0;
 		
-		for (Constructor<?> ct : constructors) {
+		for (Constructor<T> ct : constructors) {
 			if (ct.isAnnotationPresent(Inject.class)) {
 				totalInject++;
 			}
@@ -45,15 +46,17 @@ public class ConstructorResolver {
 		}
 	}
 	
-	public Constructor<?> getInjectableConstructor(Constructor<?>[] constructors) throws Exception
+	public <T> Constructor<T> getInjectableConstructor(Constructor<T>[] constructors) throws Exception
 	{
 		this.validate(constructors);
-		
-		Constructor<?> ctt = null;
+
+		@SuppressWarnings("unchecked")
+		Constructor<T> ctt = null;
 		
 		for (Constructor<?> ct : constructors) {
 			if (ct.isAnnotationPresent(Inject.class)) {
-				ctt = ct;
+				ctt = (Constructor<T>) ct;
+
 			}
 		}
 		

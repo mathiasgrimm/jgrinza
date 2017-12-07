@@ -1,4 +1,4 @@
-package lib.container.di.resolver;
+package com.mathiasgrimm.lib.container.di.resolver;
 
 public class MultipleInjectableConstructorException extends Exception {
 	

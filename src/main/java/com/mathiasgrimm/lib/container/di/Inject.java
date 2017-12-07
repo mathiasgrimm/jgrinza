@@ -1,4 +1,4 @@
-package lib.container.di;
+package com.mathiasgrimm.lib.container.di;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
