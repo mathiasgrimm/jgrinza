@@ -3,12 +3,12 @@ package com.mathiasgrimm.lib.servlet;
 import com.mathiasgrimm.lib.Application;
 import com.mathiasgrimm.lib.ApplicationFactory;
 
-import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 
 @WebServlet(urlPatterns={"/*"})
 public class MainServlet extends HttpServlet {
@@ -17,13 +17,19 @@ public class MainServlet extends HttpServlet {
 	
 	private Application app;
 
-	public MainServlet() {
+	public MainServlet() throws Exception {
         ApplicationFactory appFactory = new ApplicationFactory();
         this.app = appFactory.create();
+
+        System.out.println("finished booting application");
     }
 	
-	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void service(HttpServletRequest request, HttpServletResponse response)
 	{
-		this.app.handleHttp(request, response);
-	}
+	    try {
+            this.app.handleHttp(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

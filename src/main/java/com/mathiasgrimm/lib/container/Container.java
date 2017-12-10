@@ -7,6 +7,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import com.mathiasgrimm.lib.container.di.resolver.ConstructorResolver;
+import com.mathiasgrimm.lib.http.router.Router;
+import com.mathiasgrimm.lib.routeconfig.Route;
 
 public class Container {
 
@@ -74,6 +76,8 @@ public class Container {
 		T resolved = this.resolve(type);
 		this.bindings.put(type, resolved);
 
+		System.out.println("resolving " + type.getCanonicalName());
+
 		return resolved;
 	}
 
@@ -107,16 +111,44 @@ public class Container {
 		return ctt.newInstance(cttParams.toArray());
 	}
 
-	public void register(ServiceProviderInterface serviceProvider)
-    {
+	public void register(ServiceProviderInterface serviceProvider) throws Exception {
         this.serviceProviders.add(serviceProvider);
         serviceProvider.register(this);
     }
 
-    public void boot()
+	/**
+	 * Due to the nature of the servlets, everything has to be booted prior to the servlet serving any request otherwise
+	 * it would have to be synchronised which would greatly hit the performance.
+	 *
+	 * Every binding and every controller will be loaded (singleton) on this method
+	 *
+	 * Make sure all your code can run in a threaded environment, therefore, if you don't want to use
+	 * synchronized everywhere, don't keep any state in your components
+	 *
+	 *
+	 * @throws Exception
+	 */
+	public void boot() throws Exception
     {
+		System.out.println("booting service providers");
         for (ServiceProviderInterface serviceProvider : this.serviceProviders) {
             serviceProvider.boot(this);
         }
+
+        // initialising every registered binding to avoid any need for synchronisation if it was run in the context
+		// of the servlet handling
+		System.out.println("booting bindings");
+        for (Class<?> type : this.binders.keySet()) {
+			this.get(type);
+		}
+
+		System.out.println("booting controllers");
+		Router router = this.get(Router.class);
+
+		for (String httpMethod : router.getRoutes().keySet()) {
+			for (Route route : router.getRoutes().get(httpMethod)) {
+				this.get(Class.forName(route.getController()));
+			}
+		}
     }
 }

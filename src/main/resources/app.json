@@ -1,6 +1,8 @@
 {
-  "providers": [
-    "com.mathiasgrimm.lib.serviceprovider.ApplicationServiceProvider",
+  "router-url-prefix": "jgrinza",
+
+  "service-providers": [
+    "com.mathiasgrimm.lib.serviceprovider.AppServiceProvider",
     "com.mathiasgrimm.lib.serviceprovider.HttpServiceProvider"
   ],
 
