@@ -38,12 +38,29 @@ The main entry point of the application is the com.mathiasgrimm.lib.servlet.Main
 com.mathiasgrimm.lib.Application
 
 # Container
-At the moment every Component defined in the container will be treated as a singleton so keep in mind that any variables defined
+At the moment every component defined in the container will be treated as a singleton so keep in mind that any variables defined
 in your classes can have a negative effect due to the threaded nature of the servlets.
 
 You can register Services Provider in the rosource/app.json under the `service-providers` object.
 The provider have to implement the `ServiceProviderInterface`. The providers will be registered in the same order they are
 define in the config.
+
+If your component depends one other components you can define the constructor param type with the types that are 
+registered in the container and it will automatically inject them for you. Remeber to add `@Inject` to your constructor
+
+```
+public class IndexController {
+
+    private AppConfig appConfig;
+
+    @Inject
+    public IndexController(AppConfig appConfig) {
+        this.appConfig = appConfig;
+    }
+}
+```
+
+if the type of your parameter is a concrete class it does not need to be registered in the container 
 
 
 ## Service Providers
