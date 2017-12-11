@@ -82,9 +82,4 @@ public class MatcherTest {
 
         TestCase.assertNull(match);
     }
-
-    @Test
-    public void opa() throws Exception {
-        Object target = Integer.class.getDeclaredConstructor().newInstance();
-    }
 }
