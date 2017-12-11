@@ -20,8 +20,7 @@ public class Router {
         this.matcher   = matcher;
     }
 
-    public Match match(String httpMethod, String uri)
-    {
+    public Match match(String httpMethod, String uri) throws Exception {
         if (!this.routes.containsKey(httpMethod)) {
             return null;
         }

@@ -6,7 +6,12 @@ import java.io.IOException;
 
 public class IndexController {
 
-    public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.getWriter().write("Hi there from the controller");
+    public void index(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Integer age,
+            Double weight
+    ) throws IOException {
+        response.getWriter().write("age: " + age + " weight: " + weight);
     }
 }

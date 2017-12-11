@@ -1,6 +1,9 @@
 package com.mathiasgrimm.lib.routeconfig;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Route {
     private String httpMethod;
@@ -56,6 +59,22 @@ public class Route {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getNamedParams() {
+        List<String> params = new ArrayList<>();
+
+        Matcher matcher = Pattern.compile(":(\\w[A-Za-z0-9_-]+)").matcher(this.getUrlPattern());
+
+        while (matcher.find()) {
+            params.add(matcher.group(1));
+        }
+
+        return params;
+    }
+
+    public Integer getNumberSegments() {
+        return this.urlPattern.replaceAll("^/|/$", "").split("/").length;
     }
 
     @Override

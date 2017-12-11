@@ -21,11 +21,11 @@ public class HttpHandler {
 
     public void handle(HttpServletRequest request, HttpServletResponse response, Router router, Container container) {
         try {
-            String urlPrefix = this.appConfig.get().getString("router-url-prefix");
-            String uri       = request.getRequestURI().replaceAll(urlPrefix + "/", "");
-            Match match      = router.match(request.getMethod(), uri);
+            String uri   = this.getNormalisedUri(request.getRequestURI());
+            Match match  = router.match(request.getMethod(), uri);
 
             if (match == null) {
+                throw new Exception("404 page not found");
                 // TODO 404
             } else {
                 this.dispatchController(match, container, request, response);
@@ -34,10 +34,22 @@ public class HttpHandler {
             try {
                 // TODO exception handler
                 response.getWriter().write("Ups! something went wrong: " + e.getMessage());
+                e.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
+    }
+
+    private String getNormalisedUri(String requestUri) {
+        String urlPrefix = this.appConfig.get().getString("router-url-prefix");
+        String uri       = requestUri.replaceAll("/" + urlPrefix, "");
+
+        if (uri.equals("")) {
+            uri = "/";
+        }
+
+        return uri;
     }
 
     private void dispatchController(
@@ -60,15 +72,18 @@ public class HttpHandler {
         params.add(response);
 
         if (route.getControllerMethodParams() != null) {
-            for (int i = 2; i < route.getControllerMethodParams().size(); i++) {
-                classes[i] = Class.forName("java.lang." + route.getControllerMethodParams().get(i));
+            for (int i = 0; i < route.getControllerMethodParams().size(); i++) {
+                classes[i + 2] = Class.forName("java.lang." + route.getControllerMethodParams().get(i));
             }
 
-            for (String key : match.getParams().keySet()) {
+            for (String key : match.getRoute().getNamedParams()) {
                 params.add(match.getParams().get(key));
             }
         }
 
-        controller.getClass().getDeclaredMethod("index", classes).invoke(controller, params.toArray());
+        controller
+            .getClass()
+            .getDeclaredMethod(route.getControllerMethod(), classes)
+            .invoke(controller, params.toArray());
     }
 }
