@@ -27,8 +27,6 @@ public class Matcher {
         Match match;
 
         for (Route route : routes) {
-            String[] routeParts = route.getUrlPattern().replaceAll("^/|/$", "").split("/");
-
             if (route.getUrlPattern().equals(uri)) {
                 match = new Match();
                 match.setRoute(route);
@@ -43,7 +41,8 @@ public class Matcher {
                 continue;
             }
 
-            int prefixSegments = route.getNumberSegments() - route.getNamedParams().size();
+            int prefixSegments  = route.getNumberSegments() - route.getNamedParams().size();
+            String[] routeParts = route.getUrlPattern().replaceAll("^/|/$", "").split("/");
 
             // check if prefix matches
             String routePrefix = String.join("/", Arrays.copyOfRange(routeParts , 0, prefixSegments));
