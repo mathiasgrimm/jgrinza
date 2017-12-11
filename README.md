@@ -52,11 +52,17 @@ registered in the container and it will automatically inject them for you. Remeb
 public class IndexController {
 
     private AppConfig appConfig;
+    private SomeConcretClass someConcretClass;
 
     @Inject
-    public IndexController(AppConfig appConfig) {
+    public IndexController(AppConfig appConfig, SomeConcreteClass someConcreteClass) {
         this.appConfig = appConfig;
+        this.someConcreteClass = someConcreteClass;
     }
+}
+
+public class SomeConcreteClass {
+
 }
 ```
 
