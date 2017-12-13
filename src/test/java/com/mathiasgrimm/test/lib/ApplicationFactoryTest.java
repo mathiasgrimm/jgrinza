@@ -14,20 +14,5 @@ public class ApplicationFactoryTest {
     public void itBootsWithoutFailing() throws Exception {
         ApplicationFactory factory = new ApplicationFactory();
         Application app = factory.create();
-
-
-        String path = this.getClass().getResource("/app.log").getPath();
-
-
-        // File f = new File(path.replaceAll("file:", ""));
-        // System.out.println("file exists: " + f.exists() + " path: " + path);
-
-
-
-//        FileWriter fw      = new FileWriter(path, true);
-//        BufferedWriter bw  = new BufferedWriter(fw);
-//        Writer writer      = new PrintWriter(bw);
-//
-//        new LogFileHandler(writer, new TextRecordFormatter(), new ArrayList<>());
     }
 }
