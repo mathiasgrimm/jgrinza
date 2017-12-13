@@ -32,7 +32,7 @@ public class LogFileHandlerTest {
 
         handler.handle(record);
 
-        Mockito.verify(writer).append("[2017-01-31 23:59:59.123 Z UTC] [debug(7)] testing...\n");
+        Mockito.verify(writer).append("[Tue 2017-01-31 23:59:59.123 Z UTC] [debug(7)] testing...\n");
     }
 
     @Test

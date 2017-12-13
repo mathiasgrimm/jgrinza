@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class TextRecordFormatter  implements RecordFormatterInterface {
 
     private ZoneId zoneId = ZoneId.of("UTC");
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS ZZZZZ VV");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("EEE yyyy-MM-dd HH:mm:ss.SSS ZZZZZ VV");
 
     public ZoneId getZoneId() {
         return zoneId;
