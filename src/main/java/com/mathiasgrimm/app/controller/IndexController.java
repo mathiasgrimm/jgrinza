@@ -7,15 +7,14 @@ import com.mathiasgrimm.lib.logger.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.logging.SimpleFormatter;
 
 public class IndexController {
 
     private Logger logger;
 
     @Inject
-    public IndexController(AppConfig appConfig) {
-
+    public IndexController(AppConfig appConfig, Logger logger) {
+        this.logger = logger;
     }
 
     public void index(
@@ -27,7 +26,7 @@ public class IndexController {
     ) throws Exception {
         // throw new Exception("opa");
 
-        new SimpleFormatter()
+         this.logger.error("opa!");
 
         response.getWriter().write("age: " + age + " weight: " + weight);
     }

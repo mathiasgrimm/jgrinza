@@ -4,12 +4,15 @@ import com.mathiasgrimm.lib.logger.LogLevel;
 import com.mathiasgrimm.lib.logger.LogRecord;
 import com.mathiasgrimm.lib.logger.formatter.TextRecordFormatter;
 import com.mathiasgrimm.lib.logger.handler.LogFileHandler;
+import com.mathiasgrimm.lib.logger.handler.filter.LogLevelFilter;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.Writer;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 
@@ -35,7 +38,11 @@ public class LogFileHandlerTest {
     @Test
     public void itChecksLogLevel() throws Exception{
         Writer writer          = this.getWriterMock();
-        LogFileHandler handler = new LogFileHandler(writer, new TextRecordFormatter(), LogLevel.ERROR);
+        LogFileHandler handler = new LogFileHandler(
+            writer,
+            new TextRecordFormatter(),
+            Arrays.asList(new LogLevelFilter(LogLevel.ERROR))
+        );
 
         LogRecord record = new LogRecord("testing...", LogLevel.DEBUG);
         handler.handle(record);

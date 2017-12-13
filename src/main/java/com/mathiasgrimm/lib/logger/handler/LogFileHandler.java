@@ -53,20 +53,20 @@ public class LogFileHandler implements LogHandlerInterface {
     // FACTORY METHODS
     // -----------------------------------------------------------------------------------------------------------------
 
-//    public static LogFileHandler createForStringPath(String path, RecordFormatterInterface formatter) throws Exception {
-//        return LogFileHandler.createForStringPath(path, formatter, LogLevel.DEBUG);
-//    }
-//
-//    public static LogFileHandler createForStringPath(
-//            String path,
-//            RecordFormatterInterface formatter,
-//            List<>
-//    ) throws Exception {
-//
-//        FileWriter fw      = new FileWriter(path, true);
-//        BufferedWriter bw  = new BufferedWriter(fw);
-//        Writer writer      = new PrintWriter(bw);
-//
-//        return new LogFileHandler(writer, formatter, logLevel);
-//    }
+    public static LogFileHandler createForStringPath(String path, RecordFormatterInterface formatter) throws Exception {
+        return LogFileHandler.createForStringPath(path, formatter, null);
+    }
+
+    public static LogFileHandler createForStringPath(
+            String path,
+            RecordFormatterInterface formatter,
+            List<LogFilterInterface> filters
+    ) throws Exception {
+
+        FileWriter fw      = new FileWriter(path, true);
+        BufferedWriter bw  = new BufferedWriter(fw);
+        Writer writer      = new PrintWriter(bw);
+
+        return new LogFileHandler(writer, formatter, filters);
+    }
 }

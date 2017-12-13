@@ -15,13 +15,13 @@ public class AppServiceProvider implements ServiceProviderInterface {
 
     @Override
     public void register(Container container) {
-//        container.set(Logger.class, (ct, t) -> {
-//            String path = this.getClass().getResource("/app.log").toURI().toString();
-//            RecordFormatterInterface formatter = new TextRecordFormatter();
-//            LogHandlerInterface handler = LogFileHandler.createForStringPath(path, formatter);
-//
-//            return new Logger(Arrays.asList(handler));
-//        });
+        container.set(Logger.class, (ct, t) -> {
+            String path = this.getClass().getResource("/app.log").getPath();
+            RecordFormatterInterface formatter = new TextRecordFormatter();
+            LogHandlerInterface handler = LogFileHandler.createForStringPath(path, formatter);
+
+            return new Logger(Arrays.asList(handler));
+        });
     }
 
     @Override
