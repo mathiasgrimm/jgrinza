@@ -26,7 +26,14 @@ public class IndexController {
     ) throws Exception {
         // throw new Exception("opa");
 
+         this.logger.debug("opa!");
+         this.logger.info("opa!");
+         this.logger.notice("opa!");
+         this.logger.warning("opa!");
          this.logger.error("opa!");
+         this.logger.critical("opa!");
+         this.logger.alert("opa!");
+         this.logger.emerg("opa!");
 
         response.getWriter().write("age: " + age + " weight: " + weight);
     }
