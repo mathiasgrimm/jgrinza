@@ -103,3 +103,9 @@ Before any HTTP request is served, all registered component will be loaded and a
 # Controllers
 Every controller method requires the first two arguments to the `HttpServletRequest` and `HttpServletRespose` as these
 two object cannot be defined in the controller instance due to multi-threading.
+
+# TODO - missing components
+- Middleware
+- Logger
+- ORM
+- much more...

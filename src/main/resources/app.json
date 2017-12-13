@@ -1,4 +1,6 @@
 {
+  "env": "{{ env }}",
+
   "router-url-prefix": "jgrinza",
 
   "service-providers": [
@@ -15,14 +17,5 @@
     "response": [
 
     ]
-  },
-
-  "mail": {
-    "driver": "{{ mail.driver }}",
-
-    "mailgun": {
-      "key"   : "{{ mail.mailgun.key }}",
-      "domain": "{{ mail.mailgun.domain }}"
-    }
   }
 }

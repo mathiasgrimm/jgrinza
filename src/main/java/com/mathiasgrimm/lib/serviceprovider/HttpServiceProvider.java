@@ -3,6 +3,8 @@ package com.mathiasgrimm.lib.serviceprovider;
 import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.Container;
 import com.mathiasgrimm.lib.container.ServiceProviderInterface;
+import com.mathiasgrimm.lib.http.ExceptionHandler;
+import com.mathiasgrimm.lib.http.router.HttpExceptionHandlerInterface;
 import com.mathiasgrimm.lib.http.router.Matcher;
 import com.mathiasgrimm.lib.http.router.Router;
 import com.mathiasgrimm.lib.routeconfig.Parser;
@@ -38,6 +40,12 @@ public class HttpServiceProvider implements ServiceProviderInterface {
 
             return new Router(ct.get(AppConfig.class), routes, ct.get(Matcher.class));
 	    });
+
+        // you can define your own exception handler by using the following statement in your
+        // own Service Provider
+        container.set(HttpExceptionHandlerInterface.class, (ct, t) -> {
+            return ct.get(ExceptionHandler.class);
+        });
     }
 
     @Override

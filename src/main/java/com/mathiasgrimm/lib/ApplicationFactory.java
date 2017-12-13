@@ -40,7 +40,6 @@ public class ApplicationFactory {
         String regex = "\\{\\{\\s*(.*?)\\s*\\}\\}";
         Matcher m = Pattern.compile(regex).matcher(content);
 
-
         List<String> vars = new ArrayList<>();
         while (m.find()) {
             vars.add(m.group(1));
@@ -57,12 +56,13 @@ public class ApplicationFactory {
         JSONTokener jsonTokener = new JSONTokener(content);
         JSONObject config = new JSONObject(jsonTokener);
 
+        // System.out.println(config.toMap());
+
         AppConfig appConfig = new AppConfig(config);
 
-        HttpHandler httpHandler = new HttpHandler(appConfig);
 
         Container container = new Container(new ConstructorResolver());
-        return new Application(container, appConfig, env, httpHandler);
+        return new Application(container, appConfig, env);
     }
 
 }

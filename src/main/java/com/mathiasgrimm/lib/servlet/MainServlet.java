@@ -17,11 +17,16 @@ public class MainServlet extends HttpServlet {
 	
 	private Application app;
 
-	public MainServlet() throws Exception {
-        ApplicationFactory appFactory = new ApplicationFactory();
-        this.app = appFactory.create();
+	public MainServlet() {
+	    try {
+            ApplicationFactory appFactory = new ApplicationFactory();
+            this.app = appFactory.create();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
         System.out.println("finished booting application");
+
     }
 	
 	public void service(HttpServletRequest request, HttpServletResponse response)

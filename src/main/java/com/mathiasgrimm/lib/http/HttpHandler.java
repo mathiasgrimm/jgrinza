@@ -2,6 +2,8 @@ package com.mathiasgrimm.lib.http;
 
 import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.Container;
+import com.mathiasgrimm.lib.container.di.Inject;
+import com.mathiasgrimm.lib.http.router.HttpExceptionHandlerInterface;
 import com.mathiasgrimm.lib.http.router.Match;
 import com.mathiasgrimm.lib.http.router.Router;
 import com.mathiasgrimm.lib.routeconfig.Route;
@@ -14,28 +16,35 @@ import java.util.List;
 public class HttpHandler {
 
     private AppConfig appConfig;
+    private HttpExceptionHandlerInterface exceptionHandler;
+    private Router router;
+    private Container container;
 
-    public HttpHandler(AppConfig appConfig) {
-        this.appConfig = appConfig;
+    @Inject
+    public HttpHandler(
+            AppConfig appConfig,
+            HttpExceptionHandlerInterface exceptionHandler,
+            Router router
+    ) {
+        this.appConfig        = appConfig;
+        this.exceptionHandler = exceptionHandler;
+        this.router           = router;
     }
 
-    public void handle(HttpServletRequest request, HttpServletResponse response, Router router, Container container) {
+    public void handle(HttpServletRequest request, HttpServletResponse response, Container container) {
         try {
             String uri   = this.getNormalisedUri(request.getRequestURI());
             Match match  = router.match(request.getMethod(), uri);
 
             if (match == null) {
-                throw new Exception("404 page not found");
-                // TODO 404
+                throw new PageNotFoundException();
             } else {
                 this.dispatchController(match, container, request, response);
             }
         } catch (Throwable e) {
             try {
-                // TODO exception handler
-                response.getWriter().write("Ups! something went wrong: " + e.getMessage());
-                e.printStackTrace();
-            } catch (IOException e1) {
+                this.exceptionHandler.handle(request, response, e);
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }

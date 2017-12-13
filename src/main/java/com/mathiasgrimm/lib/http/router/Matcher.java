@@ -76,6 +76,10 @@ public class Matcher {
     private Object castParam(String type, String value) throws Exception {
 
         switch (type) {
+            case "String": {
+                return value;
+            }
+
             case "Integer": {
                 return Integer.valueOf(value);
             }

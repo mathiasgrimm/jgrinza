@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import com.mathiasgrimm.lib.container.di.resolver.ConstructorResolver;
+import com.mathiasgrimm.lib.http.HttpHandler;
 import com.mathiasgrimm.lib.http.router.Router;
 import com.mathiasgrimm.lib.routeconfig.Route;
 
@@ -141,6 +142,8 @@ public class Container {
         for (Class<?> type : this.binders.keySet()) {
 			this.get(type);
 		}
+
+		this.get(HttpHandler.class);
 
 		System.out.println("booting controllers");
 		Router router = this.get(Router.class);

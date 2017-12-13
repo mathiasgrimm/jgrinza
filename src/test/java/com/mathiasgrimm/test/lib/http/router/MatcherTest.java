@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MatcherTest {
@@ -50,6 +51,7 @@ public class MatcherTest {
         Route r2 = new Route();
         r2.setName("user.show");
         r2.setUrlPattern("/user/test/:id/:locale");
+        r2.setControllerMethodParams(Arrays.asList("String", "String"));
         r2.setHttpMethod("GET");
         routes.add(r2);
 
