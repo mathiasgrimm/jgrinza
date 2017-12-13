@@ -24,8 +24,6 @@ public class IndexController {
             Double weight
 
     ) throws Exception {
-        // throw new Exception("opa");
-
          this.logger.debug("opa!");
          this.logger.info("opa!");
          this.logger.notice("opa!");

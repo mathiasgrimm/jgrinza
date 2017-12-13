@@ -46,8 +46,8 @@ public class TextRecordFormatter  implements RecordFormatterInterface {
     @Override
     public String format(LogRecord logRecord) {
         return "[" + logRecord.getDateTime().withZoneSameInstant(this.zoneId).format(this.dateTimeFormatter) + "] ["
-                + logRecord.getLogLevel().getName()
-                + "(" + logRecord.getLogLevel().getLevel() + ")] "
+                + logRecord.getChannel() + "] ["
+                + logRecord.getLogLevel().getName() + "(" + logRecord.getLogLevel().getLevel() + ")] "
                 + logRecord.getMessage()
                 + "\n";
     }

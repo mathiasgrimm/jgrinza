@@ -11,7 +11,7 @@ public class LogLevelFilterTest {
     @Test
     public void itRestrictsGreaterLogLevels() {
         LogLevelFilter filter = new LogLevelFilter(LogLevel.ERROR);
-        LogRecord logRecord     = new LogRecord("test", LogLevel.DEBUG);
+        LogRecord logRecord   = new LogRecord("test", "test-channel", LogLevel.DEBUG);
 
         TestCase.assertFalse(filter.allowed(logRecord));
     }
@@ -19,14 +19,14 @@ public class LogLevelFilterTest {
     @Test
     public void itAllowsLowerLogLevels() {
         LogLevelFilter filter = new LogLevelFilter(LogLevel.ERROR);
-        LogRecord logRecord       = new LogRecord("test", LogLevel.CRITITAL);
+        LogRecord logRecord       = new LogRecord("test", "test-channel", LogLevel.CRITITAL);
 
         TestCase.assertTrue(filter.allowed(logRecord));
     }
     @Test
     public void itAllowsSameLogLevels() {
         LogLevelFilter filter = new LogLevelFilter(LogLevel.ERROR);
-        LogRecord logRecord       = new LogRecord("test", LogLevel.ERROR);
+        LogRecord logRecord       = new LogRecord("test", "test-channel", LogLevel.ERROR);
 
         TestCase.assertTrue(filter.allowed(logRecord));
     }

@@ -28,11 +28,11 @@ public class LogFileHandlerTest {
 
         LogFileHandler handler = new LogFileHandler(writer, new TextRecordFormatter());
         ZonedDateTime dateTime = ZonedDateTime.of(2017, 1, 31, 23, 59, 59, 123000000, ZoneId.of("UTC"));
-        LogRecord record       = new LogRecord("testing...", LogLevel.DEBUG, dateTime);
+        LogRecord record       = new LogRecord("testing...", "test-channel", LogLevel.DEBUG, dateTime);
 
         handler.handle(record);
 
-        Mockito.verify(writer).append("[Tue 2017-01-31 23:59:59.123 Z UTC] [debug(7)] testing...\n");
+        Mockito.verify(writer).append("[Tue 2017-01-31 23:59:59.123 Z UTC] [test-channel] [debug(7)] testing...\n");
     }
 
     @Test
@@ -44,13 +44,13 @@ public class LogFileHandlerTest {
             Arrays.asList(new LogLevelFilter(LogLevel.ERROR))
         );
 
-        LogRecord record = new LogRecord("testing...", LogLevel.DEBUG);
+        LogRecord record = new LogRecord("testing...", "test-channel", LogLevel.DEBUG);
         handler.handle(record);
 
         // TODO could not get verify(write, never()) to work
         Mockito.verifyNoMoreInteractions(writer);
 
-        record = new LogRecord("testing...", LogLevel.ERROR);
+        record = new LogRecord("testing...", "test-channel", LogLevel.ERROR);
         handler.handle(record);
 
         verify(writer, times(1)).append(Mockito.anyString());
