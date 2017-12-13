@@ -3,6 +3,7 @@ package com.mathiasgrimm.app.controller;
 import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.di.Inject;
 import com.mathiasgrimm.lib.logger.Logger;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,12 @@ public class IndexController {
          this.logger.critical("opa!");
          this.logger.alert("opa!");
          this.logger.emerg("opa!");
+         this.logger.debug("cool", this.getClass().getCanonicalName());
 
-        response.getWriter().write("age: " + age + " weight: " + weight);
+        JSONObject data = new JSONObject();
+        data.put("weight", weight);
+        data.put("age", age);
+
+        response.getWriter().write(data.toString());
     }
 }

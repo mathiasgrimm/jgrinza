@@ -13,6 +13,11 @@ import java.util.Hashtable;
 public class Application {
 
     private Container container;
+
+    public AppConfig getConfig() {
+        return config;
+    }
+
     private AppConfig config;
     private Hashtable<String,String> env;
 

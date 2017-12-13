@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.di.resolver.ConstructorResolver;
 import com.mathiasgrimm.lib.http.HttpHandler;
 import com.mathiasgrimm.lib.http.router.Router;
 import com.mathiasgrimm.lib.routeconfig.Route;
+import org.json.JSONObject;
 
 public class Container {
 
@@ -153,5 +156,7 @@ public class Container {
 				this.get(Class.forName(route.getController()));
 			}
 		}
+
+
     }
 }

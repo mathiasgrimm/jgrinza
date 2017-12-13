@@ -4,11 +4,14 @@ import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.Container;
 import com.mathiasgrimm.lib.container.ServiceProviderInterface;
 import com.mathiasgrimm.lib.http.ExceptionHandler;
+import com.mathiasgrimm.lib.http.middleware.Middleware;
+import com.mathiasgrimm.lib.http.middleware.MiddlewareHandler;
 import com.mathiasgrimm.lib.http.router.HttpExceptionHandlerInterface;
 import com.mathiasgrimm.lib.http.router.Matcher;
 import com.mathiasgrimm.lib.http.router.Router;
 import com.mathiasgrimm.lib.routeconfig.Parser;
 import com.mathiasgrimm.lib.routeconfig.Route;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -45,6 +48,25 @@ public class HttpServiceProvider implements ServiceProviderInterface {
         // own Service Provider
         container.set(HttpExceptionHandlerInterface.class, (ct, t) -> {
             return ct.get(ExceptionHandler.class);
+        });
+
+        container.set(Middleware.class, (ct, t) -> {
+            AppConfig appConfig = ct.get(AppConfig.class);
+
+            JSONObject middlewareConfig = appConfig.get().getJSONObject("middleware");
+
+            List<MiddlewareHandler> requestChain  = new ArrayList<>();
+            List<MiddlewareHandler> responseChain = new ArrayList<>();
+
+            for (Object handlerName : middlewareConfig.getJSONArray("request").toList()) {
+                requestChain.add(ct.get((Class<MiddlewareHandler>)Class.forName((String) handlerName)));
+            }
+
+            for (Object handlerName : middlewareConfig.getJSONArray("response").toList()) {
+                responseChain.add(ct.get((Class<MiddlewareHandler>)Class.forName((String) handlerName)));
+            }
+
+            return new Middleware(requestChain, responseChain);
         });
     }
 

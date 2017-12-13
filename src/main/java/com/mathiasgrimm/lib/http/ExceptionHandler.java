@@ -42,6 +42,8 @@ public class ExceptionHandler implements HttpExceptionHandlerInterface {
         response.setStatus(httpStatus);
         response.getWriter().write(data.toString());
 
-        // log
+        e.printStackTrace();
+
+        // TODO log
     }
 }

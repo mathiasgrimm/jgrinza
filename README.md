@@ -106,6 +106,5 @@ two object cannot be defined in the controller instance due to multi-threading.
 
 # TODO - missing components
 - Middleware
-- Logger
 - ORM
 - much more...

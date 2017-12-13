@@ -3,6 +3,7 @@ package com.mathiasgrimm.lib.http;
 import com.mathiasgrimm.lib.AppConfig;
 import com.mathiasgrimm.lib.container.Container;
 import com.mathiasgrimm.lib.container.di.Inject;
+import com.mathiasgrimm.lib.http.middleware.Middleware;
 import com.mathiasgrimm.lib.http.router.HttpExceptionHandlerInterface;
 import com.mathiasgrimm.lib.http.router.Match;
 import com.mathiasgrimm.lib.http.router.Router;
@@ -18,21 +19,27 @@ public class HttpHandler {
     private AppConfig appConfig;
     private HttpExceptionHandlerInterface exceptionHandler;
     private Router router;
-    private Container container;
+    private Middleware middleware;
 
     @Inject
     public HttpHandler(
             AppConfig appConfig,
             HttpExceptionHandlerInterface exceptionHandler,
-            Router router
+            Router router,
+            Middleware middleware
     ) {
         this.appConfig        = appConfig;
         this.exceptionHandler = exceptionHandler;
         this.router           = router;
+        this.middleware       = middleware;
     }
 
     public void handle(HttpServletRequest request, HttpServletResponse response, Container container) {
         try {
+            if (!this.middleware.processRequestChain(request, response)) {
+                return;
+            }
+
             String uri   = this.getNormalisedUri(request.getRequestURI());
             Match match  = router.match(request.getMethod(), uri);
 
@@ -40,6 +47,10 @@ public class HttpHandler {
                 throw new PageNotFoundException();
             } else {
                 this.dispatchController(match, container, request, response);
+            }
+
+            if (!this.middleware.processResponseChain(request, response)) {
+                return;
             }
         } catch (Throwable e) {
             try {
